@@ -1,0 +1,838 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Campus Event Portal</title>
+
+    <style>
+
+        /* =========================
+           GENERAL STYLING
+        ========================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fc;
+            color: #25324b;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            background: #101d36;
+            color: white;
+            padding: 18px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .logo {
+            font-size: 23px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        .logo span {
+            color: #55a6ff;
+        }
+
+        .header-text {
+            font-size: 13px;
+            color: #cbd5e1;
+        }
+
+        /* =========================
+           NAVIGATION
+        ========================= */
+
+        nav {
+            background: #182945;
+            padding: 13px 8%;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+        }
+
+        nav a {
+            color: #e5edff;
+            padding: 9px 17px;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            background: #3478d4;
+            color: white;
+        }
+
+        /* =========================
+           HERO SECTION
+        ========================= */
+
+        .welcome {
+            background:
+                radial-gradient(circle at 85% 15%, #397bc4 0%, transparent 30%),
+                linear-gradient(120deg, #102342, #1e4d88);
+
+            color: white;
+            text-align: center;
+            padding: 100px 20px;
+            border-radius: 0;
+            margin: 0;
+            max-width: none;
+            box-shadow: none;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            background: rgba(255,255,255,0.13);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #dceaff;
+            padding: 7px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+        .welcome h2 {
+            color: white;
+            font-size: 43px;
+            max-width: 750px;
+            margin: 0 auto 15px;
+            line-height: 1.2;
+        }
+
+        .welcome p {
+            max-width: 680px;
+            margin: 10px auto;
+            color: #d7e5f8;
+            font-size: 16px;
+        }
+
+        .hero-button {
+            display: inline-block;
+            background: #ffffff;
+            color: #17447c;
+            padding: 13px 25px;
+            margin-top: 25px;
+            border-radius: 7px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .hero-button:hover {
+            background: #dceaff;
+            transform: translateY(-3px);
+        }
+
+        /* =========================
+           COMMON SECTIONS
+        ========================= */
+
+        section:not(.welcome) {
+            max-width: 1120px;
+            margin: 35px auto;
+            padding: 35px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 22px rgba(26, 47, 80, 0.06);
+        }
+
+        section h2 {
+            color: #142b50;
+            font-size: 27px;
+            margin-bottom: 8px;
+        }
+
+        .section-subtitle {
+            color: #718096;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+
+        /* =========================
+           EVENTS SECTION
+        ========================= */
+
+        #eventList {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+            margin-top: 25px;
+        }
+
+        .event {
+            background: #ffffff;
+            border: 1px solid #e5eaf2;
+            border-radius: 11px;
+            padding: 24px;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .event::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #2463ad, #55a6ff);
+        }
+
+        .event:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 12px 25px rgba(26, 62, 110, 0.12);
+            border-color: #c9ddf8;
+        }
+
+        .event h3 {
+            color: #183d6b;
+            font-size: 19px;
+            margin: 5px 0 10px;
+        }
+
+        .event p {
+            color: #718096;
+            font-size: 14px;
+        }
+
+        .event button {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        /* =========================
+           BUTTONS
+        ========================= */
+
+        button {
+            background: #2463ad;
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #153e70;
+            transform: translateY(-2px);
+        }
+
+        /* =========================
+           REGISTRATION FORM
+        ========================= */
+
+        #register {
+            background: #ffffff;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 25px auto 10px;
+            background: #f8faff;
+            border: 1px solid #e4ebf5;
+            padding: 28px;
+            border-radius: 12px;
+        }
+
+        .form-heading {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-heading h3 {
+            color: #183d6b;
+            font-size: 20px;
+        }
+
+        .form-heading p {
+            color: #718096;
+            font-size: 13px;
+        }
+
+        input, select {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            margin: 13px 0;
+            border: 1px solid #d9e1ed;
+            border-radius: 7px;
+            background: white;
+            font-size: 14px;
+            color: #25324b;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #3478d4;
+            box-shadow: 0 0 0 3px rgba(52,120,212,0.12);
+        }
+
+        form button {
+            width: 100%;
+            margin-top: 15px;
+            padding: 14px;
+            font-size: 15px;
+        }
+
+        /* =========================
+           MESSAGE
+        ========================= */
+
+        #message {
+            max-width: 600px;
+            margin: 15px auto;
+            padding: 12px;
+            border-radius: 7px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            background: #101d36;
+            color: white;
+            text-align: center;
+            padding: 35px 15px;
+            margin-top: 50px;
+        }
+
+        footer h3 {
+            font-size: 19px;
+            margin-bottom: 8px;
+        }
+
+        footer p {
+            color: #aebbd0;
+            font-size: 13px;
+            margin: 5px;
+        }
+
+        .footer-line {
+            height: 1px;
+            background: #34445f;
+            max-width: 700px;
+            margin: 20px auto;
+        }
+
+        /* =========================
+           RESPONSIVE DESIGN
+        ========================= */
+
+        @media (max-width: 850px) {
+
+            #eventList {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .welcome h2 {
+                font-size: 34px;
+            }
+
+            header {
+                justify-content: center;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            #eventList {
+                grid-template-columns: 1fr;
+            }
+
+            .welcome {
+                padding: 65px 20px;
+            }
+
+            .welcome h2 {
+                font-size: 28px;
+            }
+
+            section:not(.welcome) {
+                margin: 18px 12px;
+                padding: 22px;
+            }
+
+            nav {
+                gap: 3px;
+                padding: 10px 5px;
+            }
+
+            nav a {
+                padding: 8px 10px;
+                font-size: 12px;
+            }
+
+            form {
+                padding: 18px;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <header>
+
+        <div class="logo">
+            CAMPUS<span>EVENTS</span>
+        </div>
+
+        <div class="header-text">
+            Your Campus. Your Events. Your Experience.
+        </div>
+
+    </header>
+
+
+    <!-- NAVIGATION -->
+
+    <nav>
+
+        <a href="#home">Home</a>
+        <a href="#events">Events</a>
+        <a href="#register">Register</a>
+        <a href="admin.html">Admin</a>
+
+    </nav>
+
+
+    <!-- HERO SECTION -->
+
+    <section id="home" class="welcome">
+
+        <div class="hero-tag">
+            WELCOME TO YOUR CAMPUS COMMUNITY
+        </div>
+
+        <h2>
+            Discover Events.<br>
+            Create Memories.
+        </h2>
+
+        <p>
+            Explore exciting college events, participate in activities
+            and connect with your campus community.
+        </p>
+
+        <a href="#events" class="hero-button">
+            Explore Events →
+        </a>
+
+    </section>
+
+
+    <!-- EVENTS SECTION -->
+
+    <section id="events">
+
+        <h2>Upcoming Events</h2>
+
+        <p class="section-subtitle">
+            Find your next campus experience and register today.
+        </p>
+
+        <div id="eventList"></div>
+
+    </section>
+
+
+    <!-- REGISTRATION SECTION -->
+
+    <section id="register">
+
+        <h2>Student Registration</h2>
+
+        <p class="section-subtitle">
+            Complete the form below to reserve your place at an event.
+        </p>
+
+        <form id="registrationForm">
+
+            <div class="form-heading">
+
+                <h3>Join an Event</h3>
+
+                <p>Enter your details to register.</p>
+
+            </div>
+
+            <input
+                type="text"
+                id="studentName"
+                placeholder="Full Name"
+                required
+            >
+
+            <input
+                type="text"
+                id="regNumber"
+                placeholder="University Registration Number"
+                required
+            >
+
+            <input
+                type="email"
+                id="studentEmail"
+                placeholder="Email Address"
+                required
+            >
+
+            <select id="eventName" required>
+
+                <option value="">Choose an Event</option>
+
+            </select>
+
+            <button type="submit">
+                Complete Registration →
+            </button>
+
+        </form>
+
+        <div id="message"></div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <h3>Campus Event Portal</h3>
+
+        <p>Bringing students and campus events together.</p>
+
+        <div class="footer-line"></div>
+
+        <p>Designed using HTML, CSS and JavaScript</p>
+
+        <p>First Year CSE Project</p>
+
+        <p>© 2026 Campus Event Portal</p>
+
+    </footer>
+
+
+    <script>
+
+        // Load Events and Students
+
+        let events = JSON.parse(
+            localStorage.getItem("campusEvents")
+        );
+
+        let students = JSON.parse(
+            localStorage.getItem("campusStudents")
+        );
+
+
+        // Create Sample Events
+
+        if (!Array.isArray(events)) {
+
+            events = [
+                { name: "Technical Fest", date: "2026-11-25" },
+                { name: "Cultural Fest", date: "2026-11-28" },
+                { name: "Sports Day", date: "2026-12-02" }
+            ];
+
+            saveEvents();
+
+        }
+
+
+        if (!Array.isArray(students)) {
+
+            students = [];
+
+            saveStudents();
+
+        }
+
+
+        // Save Events
+
+        function saveEvents() {
+
+            localStorage.setItem(
+                "campusEvents",
+                JSON.stringify(events)
+            );
+
+        }
+
+
+        // Save Students
+
+        function saveStudents() {
+
+            localStorage.setItem(
+                "campusStudents",
+                JSON.stringify(students)
+            );
+
+        }
+
+
+        // Display Events
+
+        function displayEvents() {
+
+            let eventList = document.getElementById("eventList");
+
+            eventList.innerHTML = "";
+
+            if (events.length === 0) {
+
+                eventList.textContent =
+                    "No upcoming events available.";
+
+            }
+
+            events.forEach(function(item) {
+
+                let card = document.createElement("div");
+
+                card.className = "event";
+
+
+                let heading = document.createElement("h3");
+
+                heading.textContent = item.name;
+
+
+                let date = document.createElement("p");
+
+                date.textContent = "Date: " + item.date;
+
+
+                let button = document.createElement("button");
+
+                button.textContent = "Register for this Event";
+
+
+                button.onclick = function() {
+
+                    document.getElementById("eventName").value =
+                        item.name;
+
+                    document.getElementById("register").scrollIntoView({
+                        behavior: "smooth"
+                    });
+
+                };
+
+
+                card.appendChild(heading);
+
+                card.appendChild(date);
+
+                card.appendChild(button);
+
+                eventList.appendChild(card);
+
+            });
+
+
+            displayEventOptions();
+
+        }
+
+
+        // Display Events in Dropdown
+
+        function displayEventOptions() {
+
+            let dropdown = document.getElementById("eventName");
+
+            dropdown.innerHTML =
+                '<option value="">Choose an Event</option>';
+
+
+            events.forEach(function(item) {
+
+                let option = document.createElement("option");
+
+                option.value = item.name;
+
+                option.textContent =
+                    item.name + " - " + item.date;
+
+                dropdown.appendChild(option);
+
+            });
+
+        }
+
+
+        // Student Registration
+
+        function registerStudent(e) {
+
+            e.preventDefault();
+
+
+            let name = document.getElementById("studentName")
+                .value.trim();
+
+            let regNo = document.getElementById("regNumber")
+                .value.trim();
+
+            let email = document.getElementById("studentEmail")
+                .value.trim();
+
+            let eventName = document.getElementById("eventName")
+                .value;
+
+
+            let message = document.getElementById("message");
+
+
+            // Check Selected Event
+
+            let selectedEvent = events.find(function(item) {
+
+                return item.name === eventName;
+
+            });
+
+
+            if (!selectedEvent) {
+
+                message.textContent =
+                    "Please select a valid event.";
+
+                message.style.backgroundColor = "#f8d7da";
+
+                message.style.color = "#721c24";
+
+                return;
+
+            }
+
+
+            // Check Duplicate Registration
+
+            let duplicate = students.some(function(student) {
+
+                return student.regNo.toLowerCase() ===
+                    regNo.toLowerCase()
+                    && student.event === eventName;
+
+            });
+
+
+            if (duplicate) {
+
+                message.textContent =
+                    "You have already registered for this event.";
+
+                message.style.backgroundColor = "#f8d7da";
+
+                message.style.color = "#721c24";
+
+                return;
+
+            }
+
+
+            // Add Student
+
+            students.push({
+
+                name: name,
+
+                regNo: regNo,
+
+                email: email,
+
+                event: eventName
+
+            });
+
+
+            // Save Registration
+
+            saveStudents();
+
+
+            // Success Message
+
+            message.textContent =
+                "Registration successful! Welcome, " + name + ".";
+
+            message.style.backgroundColor = "#d4edda";
+
+            message.style.color = "#155724";
+
+
+            // Reset Form
+
+            document.getElementById("registrationForm").reset();
+
+        }
+
+
+        // Form Submission
+
+        document.getElementById("registrationForm")
+            .addEventListener("submit", registerStudent);
+
+
+        // Load Events on Page Start
+
+        displayEvents();
+
+    </script>
+
+</body>
+
+</html>
